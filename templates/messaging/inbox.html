@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Messages | GarmentHub{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/messaging.css' %}">
+
+<section class="gh-message-page">
+
+    <div class="gh-message-heading">
+        <div>
+            <span class="gh-eyebrow">BUSINESS COMMUNICATION</span>
+            <h1>Messages & Inquiries</h1>
+            <p>
+                Manage conversations with manufacturers,
+                suppliers and other garment businesses.
+            </p>
+        </div>
+
+        <a href="{% url 'accounts:supplier_directory' %}"
+           class="gh-primary-link">
+            Find Suppliers &rarr;
+        </a>
+    </div>
+
+    <div class="gh-inbox-layout">
+
+        <div class="gh-inbox-main">
+
+            <div class="gh-panel-heading">
+                <h2>Your Conversations</h2>
+                <span>{{ page_obj.paginator.count }} conversations</span>
+            </div>
+
+            {% for row in rows %}
+
+                <a class="gh-conversation-card"
+                   href="{% url 'messaging:conversation' row.conversation.pk %}">
+
+                    <div class="gh-conversation-icon">
+                        <span>
+                            {{ row.conversation.business_one.name|slice:":1"|upper }}
+                        </span>
+                    </div>
+
+                    <div class="gh-conversation-content">
+
+                        <div class="gh-conversation-top">
+                            <h3>
+                                {{ row.conversation.business_one.name }}
+                                <span class="gh-connector">&harr;</span>
+                                {{ row.conversation.business_two.name }}
+                            </h3>
+
+                            {% if row.unread_count %}
+                                <span class="gh-unread">
+                                    {{ row.unread_count }}
+                                </span>
+                            {% endif %}
+                        </div>
+
+                        <p class="gh-conversation-subject">
+                            {{ row.conversation.subject }}
+                        </p>
+
+                        {% if row.last_message %}
+                            <p class="gh-message-preview">
+                                <strong>
+                                    {{ row.last_message.sender_business.name }}:
+                                </strong>
+                                {{ row.last_message.body|truncatechars:95 }}
+                            </p>
+
+                            <span class="gh-message-time">
+                                {{ row.last_message.created_at|date:"d M Y, h:i A" }}
+                            </span>
+                        {% else %}
+                            <p class="gh-message-preview">
+                                No messages yet.
+                            </p>
+                        {% endif %}
+
+                    </div>
+
+                </a>
+
+            {% empty %}
+
+                <div class="gh-empty-state">
+                    <h3>No conversations yet</h3>
+
+                    <p>
+                        Find a supplier or manufacturer and
+                        send your first business inquiry.
+                    </p>
+
+                    <a href="{% url 'accounts:supplier_directory' %}">
+                        Explore Businesses
+                    </a>
+                </div>
+
+            {% endfor %}
+
+            {% if page_obj.has_other_pages %}
+
+                <div class="gh-pagination">
+
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}">
+                            &larr; Previous
+                        </a>
+                    {% endif %}
+
+                    <span>
+                        Page {{ page_obj.number }}
+                        of {{ page_obj.paginator.num_pages }}
+                    </span>
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">
+                            Next &rarr;
+                        </a>
+                    {% endif %}
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+        <aside class="gh-inbox-sidebar">
+
+            <span class="gh-eyebrow">YOUR BUSINESS NETWORK</span>
+
+            <h2>Connected Businesses</h2>
+
+            {% for business in businesses %}
+
+                <div class="gh-business-mini">
+                    <strong>{{ business.name }}</strong>
+                    <span>{{ business.city }}</span>
+                </div>
+
+            {% empty %}
+
+                <p>
+                    You are not a member of any business yet.
+                </p>
+
+            {% endfor %}
+
+            <div class="gh-sidebar-note">
+                Messages are visible to members of the
+                participating businesses.
+            </div>
+
+        </aside>
+
+    </div>
+
+</section>
+
+{% endblock %}

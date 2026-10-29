@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Supplier Directory | GarmentHub{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/supplier.css' %}">
+
+<section class="supplier-hero">
+    <div class="supplier-hero-content">
+        <span class="section-eyebrow">GARMENTHUB NETWORK</span>
+
+        <h1>Find the right people to get work done.</h1>
+
+        <p>
+            Discover manufacturers, fabric suppliers,
+            job workers and garment service providers
+            across different cities.
+        </p>
+
+        <a href="#supplier-results" class="supplier-hero-link">
+            Explore businesses &rarr;
+        </a>
+    </div>
+
+    <div class="supplier-hero-side">
+        <span>BUSINESS NETWORK</span>
+        <strong>{{ total_results }}</strong>
+        <p>Businesses matching your search</p>
+    </div>
+</section>
+
+<section class="supplier-directory" id="supplier-results">
+
+    <div class="supplier-directory-heading">
+        <div>
+            <span class="section-eyebrow">EXPLORE THE NETWORK</span>
+            <h2>Business Directory</h2>
+            <p>
+                Find businesses based on their work,
+                location and specialization.
+            </p>
+        </div>
+    </div>
+
+    <form method="get" class="supplier-filters">
+
+        <div class="supplier-field supplier-search">
+            <label for="supplier-q">Search business</label>
+            <input id="supplier-q" type="search" name="q" placeholder="Business name or service"
+                value="{{ search_query }}">
+        </div>
+
+        <div class="supplier-field">
+            <label for="supplier-city">City</label>
+            <input id="supplier-city" type="text" name="city" placeholder="Enter city" value="{{ city_query }}">
+        </div>
+
+        <div class="supplier-field">
+            <label for="supplier-type">Business type</label>
+
+            <select id="supplier-type" name="type">
+                <option value="">All business types</option>
+
+                {% for value, label in business_types %}
+                <option value="{{ value }}" {% if selected_type == value %}selected{% endif %}>
+                    {{ label }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="supplier-filter-actions">
+            <button type="submit">Find Businesses</button>
+
+            <a href="{% url 'accounts:supplier_directory' %}">
+                Reset
+            </a>
+        </div>
+
+    </form>
+
+    <div class="supplier-results-top">
+        <p>
+            <strong>{{ total_results }}</strong>
+            businesses found
+        </p>
+    </div>
+
+    <div class="supplier-grid">
+
+        {% for business in businesses %}
+
+        <article class="supplier-card">
+
+            <div class="supplier-card-top">
+                <div class="supplier-avatar">
+                    {{ business.name|slice:":1"|upper }}
+                </div>
+
+                <span class="supplier-category">
+                    {{ business.get_business_type_display }}
+                </span>
+            </div>
+
+            <div class="supplier-card-body">
+                <h3>{{ business.name }}</h3>
+
+                {% if business.verification.status == "approved" %}
+                <span class="verified-business-badge">
+                    &#10003; Verified Business
+                </span>
+                {% endif %}
+
+                <p class="supplier-location">
+                    {{ business.city }}
+                </p>
+
+                <p class="supplier-description">
+                    {% if business.description %}
+                    {{ business.description|truncatewords:25 }}
+                    {% else %}
+                    Explore this business and connect
+                    for garment-related opportunities.
+                    {% endif %}
+                </p>
+            </div>
+
+            <div class="supplier-card-bottom">
+                <span>Business Profile</span>
+
+                <a href="{% url 'accounts:supplier_profile' business.pk %}">
+                    View Profile &rarr;
+                </a>
+            </div>
+
+        </article>
+
+        {% empty %}
+
+        <div class="supplier-empty">
+            <h3>No businesses found</h3>
+            <p>
+                Try another city, business type or keyword.
+            </p>
+
+            <a href="{% url 'accounts:supplier_directory' %}">
+                Clear all filters
+            </a>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% if page_obj.has_other_pages %}
+    <nav class="supplier-pagination" aria-label="Supplier pages">
+
+        {% if page_obj.has_previous %}
+        <a href="?{% if filter_query %}{{ filter_query }}&amp;{% endif %}page={{ page_obj.previous_page_number }}">
+            &larr; Previous
+        </a>
+        {% endif %}
+
+        <span>
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+        <a href="?{% if filter_query %}{{ filter_query }}&amp;{% endif %}page={{ page_obj.next_page_number }}">
+            Next &rarr;
+        </a>
+        {% endif %}
+
+    </nav>
+    {% endif %}
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,546 @@
+/* ==========================================
+   GARMENTHUB - BUSINESS MESSAGING
+========================================== */
+
+.gh-message-page {
+    width: 100%;
+    min-height: 75vh;
+    padding: 55px 6% 90px;
+    box-sizing: border-box;
+    background: #f6f7f5;
+    color: #172e36;
+}
+
+.gh-eyebrow {
+    display: block;
+    margin-bottom: 12px;
+    color: #a47b52;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+}
+
+.gh-message-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 30px;
+    margin-bottom: 38px;
+}
+
+.gh-message-heading h1 {
+    margin: 0 0 14px;
+    font-size: clamp(34px, 4vw, 58px);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+}
+
+.gh-message-heading p {
+    max-width: 650px;
+    margin: 0;
+    color: #728084;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.gh-primary-link,
+.gh-submit-button {
+    display: inline-block;
+    padding: 14px 22px;
+    border: 0;
+    border-radius: 3px;
+    background: #17343d;
+    color: #fff;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background .2s ease;
+}
+
+.gh-primary-link:hover,
+.gh-submit-button:hover {
+    background: #31535d;
+}
+
+/* Inbox */
+
+.gh-inbox-layout,
+.gh-chat-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 26px;
+    align-items: start;
+}
+
+.gh-inbox-main,
+.gh-chat-main,
+.gh-inbox-sidebar,
+.gh-chat-sidebar,
+.gh-inquiry-form,
+.gh-inquiry-receiver {
+    min-width: 0;
+    background: #fff;
+    border: 1px solid #e2e8e4;
+}
+
+.gh-panel-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 25px 28px;
+    border-bottom: 1px solid #edf0ed;
+}
+
+.gh-panel-heading h2 {
+    margin: 0;
+    font-size: 21px;
+    font-weight: 600;
+}
+
+.gh-panel-heading span {
+    color: #879195;
+    font-size: 12px;
+}
+
+.gh-conversation-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 25px 28px;
+    border-bottom: 1px solid #edf0ed;
+    color: inherit;
+    text-decoration: none;
+    transition: background .2s ease;
+}
+
+.gh-conversation-card:hover {
+    background: #f9faf8;
+}
+
+.gh-conversation-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    background: #e7eee9;
+    color: #315e4a;
+    font-size: 23px;
+    font-weight: 700;
+}
+
+.gh-conversation-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.gh-conversation-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.gh-conversation-top h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.gh-connector {
+    padding: 0 5px;
+    color: #a27b52;
+}
+
+.gh-unread {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 25px;
+    height: 25px;
+    padding: 0 6px;
+    box-sizing: border-box;
+    border-radius: 20px;
+    background: #215d48;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.gh-conversation-subject {
+    margin: 9px 0;
+    color: #a27b52;
+    font-size: 12px;
+}
+
+.gh-message-preview {
+    margin: 0 0 9px;
+    color: #69777b;
+    font-size: 13px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+.gh-message-time {
+    color: #9aa4a6;
+    font-size: 11px;
+}
+
+.gh-inbox-sidebar,
+.gh-chat-sidebar {
+    padding: 28px;
+}
+
+.gh-inbox-sidebar h2,
+.gh-chat-sidebar h2 {
+    margin: 0 0 25px;
+    font-size: 21px;
+}
+
+.gh-business-mini {
+    display: grid;
+    gap: 7px;
+    padding: 16px 0;
+    border-bottom: 1px solid #edf0ed;
+}
+
+.gh-business-mini strong {
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+.gh-business-mini span {
+    color: #859194;
+    font-size: 12px;
+}
+
+.gh-sidebar-note {
+    margin-top: 25px;
+    padding: 18px;
+    background: #f7f5f0;
+    color: #746b5d;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.gh-empty-state {
+    padding: 65px 30px;
+    text-align: center;
+}
+
+.gh-empty-state h3 {
+    margin: 0 0 12px;
+    font-size: 22px;
+}
+
+.gh-empty-state p {
+    color: #78868a;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.gh-empty-state a {
+    display: inline-block;
+    margin-top: 15px;
+    color: #245d49;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.gh-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 25px;
+}
+
+.gh-pagination a {
+    color: #245d49;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.gh-pagination span {
+    color: #879195;
+    font-size: 12px;
+}
+
+/* Inquiry */
+
+.gh-inquiry-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(260px, .65fr);
+    gap: 26px;
+    align-items: start;
+}
+
+.gh-inquiry-form {
+    padding-bottom: 30px;
+}
+
+.gh-inquiry-form form {
+    padding: 30px;
+}
+
+.gh-form-field {
+    margin-bottom: 24px;
+}
+
+.gh-form-field label {
+    display: block;
+    margin-bottom: 10px;
+    color: #31464d;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.gh-form-field input,
+.gh-form-field select,
+.gh-form-field textarea {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px 15px;
+    border: 1px solid #dce3df;
+    border-radius: 3px;
+    background: #fff;
+    color: #263b43;
+    font: inherit;
+    font-size: 13px;
+    outline: none;
+}
+
+.gh-form-field input,
+.gh-form-field select {
+    min-height: 47px;
+}
+
+.gh-form-field textarea {
+    min-height: 135px;
+    resize: vertical;
+    line-height: 1.7;
+}
+
+.gh-form-field input:focus,
+.gh-form-field select:focus,
+.gh-form-field textarea:focus {
+    border-color: #a77c54;
+}
+
+.gh-form-error {
+    color: #b44444;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.gh-inquiry-receiver {
+    padding: 32px;
+}
+
+.gh-receiver-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 75px;
+    height: 75px;
+    margin: 20px 0;
+    background: #e7eee9;
+    color: #315e4a;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.gh-inquiry-receiver h2 {
+    margin: 0 0 10px;
+    font-size: 24px;
+    overflow-wrap: anywhere;
+}
+
+.gh-inquiry-receiver p {
+    color: #a17c57;
+    font-size: 13px;
+}
+
+.gh-inquiry-receiver > span {
+    display: block;
+    color: #748185;
+    font-size: 13px;
+}
+
+.gh-inquiry-receiver a {
+    display: inline-block;
+    margin-top: 25px;
+    color: #245d49;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* Conversation */
+
+.gh-back-link {
+    display: inline-block;
+    margin-bottom: 25px;
+    color: #49666b;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.gh-chat-header {
+    padding: 30px;
+    border-bottom: 1px solid #e6ece8;
+}
+
+.gh-chat-header h1 {
+    margin: 0 0 10px;
+    font-size: 27px;
+    overflow-wrap: anywhere;
+}
+
+.gh-chat-header p {
+    margin: 0;
+    color: #758286;
+    font-size: 13px;
+}
+
+.gh-chat-messages {
+    display: grid;
+    gap: 20px;
+    padding: 30px;
+    background: #fafbf9;
+}
+
+.gh-chat-message {
+    max-width: 90%;
+    padding: 19px 22px;
+    border: 1px solid #e5ebe6;
+    border-left: 3px solid #a27c56;
+    background: #fff;
+    overflow-wrap: anywhere;
+}
+
+.gh-message-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.gh-message-meta strong {
+    color: #245747;
+    font-size: 13px;
+}
+
+.gh-message-meta span {
+    color: #98a2a4;
+    font-size: 11px;
+}
+
+.gh-chat-message p {
+    margin: 0;
+    color: #394e54;
+    font-size: 14px;
+    line-height: 1.9;
+}
+
+.gh-older-messages {
+    display: inline-block;
+    color: #245747;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.gh-chat-actions {
+    padding: 15px 30px;
+    border-top: 1px solid #e6ece8;
+}
+
+.gh-read-button {
+    padding: 10px 15px;
+    border: 1px solid #d6e0da;
+    background: #fff;
+    color: #245747;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.gh-message-composer {
+    padding: 30px;
+    border-top: 1px solid #e6ece8;
+}
+
+.gh-message-composer h2 {
+    margin: 0 0 25px;
+    font-size: 22px;
+}
+
+.gh-readonly-notice {
+    padding: 25px 30px;
+    color: #7a8588;
+    font-size: 13px;
+}
+
+@media (max-width: 950px) {
+    .gh-inbox-layout,
+    .gh-chat-layout,
+    .gh-inquiry-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .gh-message-page {
+        padding: 35px 5% 65px;
+    }
+
+    .gh-message-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .gh-conversation-card {
+        padding: 20px 15px;
+        gap: 12px;
+    }
+
+    .gh-conversation-icon {
+        width: 42px;
+        height: 42px;
+        font-size: 19px;
+    }
+
+    .gh-panel-heading,
+    .gh-chat-header,
+    .gh-chat-messages,
+    .gh-message-composer,
+    .gh-inquiry-form form {
+        padding: 20px;
+    }
+
+    .gh-chat-message {
+        max-width: 100%;
+    }
+
+    .gh-inbox-sidebar,
+    .gh-chat-sidebar,
+    .gh-inquiry-receiver {
+        padding: 22px;
+    }
+
+    .gh-message-meta {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}

@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block title %}{{ business.name }} | GarmentHub{% endblock %}
+
+{% block content %}
+<section class="business-profile-page">
+
+    <div class="business-profile-header">
+        <div>
+            <p class="eyebrow">GARMENTHUB / BUSINESS PROFILE</p>
+            <h1>{{ business.name }}<span>.</span></h1>
+            <p>{{ business.get_business_type_display }} / {{ business.city }}</p>
+        </div>
+
+        {% if is_owner %}
+        <a class="button button--dark" href="{% url 'accounts:edit_business' business.id %}">
+            Edit Business Profile
+        </a>
+        {% endif %}
+    </div>
+
+    <div class="business-profile-grid">
+
+        <div class="business-verification-link">
+
+            <h3>Business Verification</h3>
+
+            <p>
+                Manage verification status for this business.
+            </p>
+
+            <a href="{% url 'accounts:verification_status' business.pk %}">
+                View Verification Status
+            </a>
+
+        </div>
+
+        <article class="business-profile-card">
+            <p class="eyebrow">01 / COMPANY INFORMATION</p>
+            <h2>About the business</h2>
+
+            <div class="business-info-row">
+                <span>Business name</span>
+                <strong>{{ business.name }}</strong>
+            </div>
+
+            <div class="business-info-row">
+                <span>Business type</span>
+                <strong>{{ business.get_business_type_display }}</strong>
+            </div>
+
+            <div class="business-info-row">
+                <span>City</span>
+                <strong>{{ business.city }}</strong>
+            </div>
+
+            <div class="business-info-row">
+                <span>Phone</span>
+                <strong>{{ business.phone|default:"Not provided" }}</strong>
+            </div>
+
+            <div class="business-info-row">
+                <span>Address</span>
+                <strong>{{ business.address|default:"Not provided" }}</strong>
+            </div>
+
+            <div class="business-description">
+                <h3>Description</h3>
+                <p>{{ business.description|default:"No description added yet."|linebreaksbr }}</p>
+            </div>
+        </article>
+
+        <article class="business-profile-card">
+            <p class="eyebrow">02 / TEAM</p>
+            <h2>Business members</h2>
+            <p class="business-section-note">
+                Manage the people who have access to this business.
+            </p>
+
+            <div class="business-members-list">
+                {% for member in members %}
+                <div class="business-member">
+
+                    <div class="business-member-info">
+                        <strong>{{ member.user.username }}</strong>
+                        <span>{{ member.get_role_display }}</span>
+                    </div>
+
+                    {% if is_owner and member.user_id != business.owner_id %}
+                    <div class="business-member-actions">
+
+                        <form method="post" action="{% url 'accounts:change_member_role' business.id member.id %}">
+                            {% csrf_token %}
+
+                            <select name="role" aria-label="Change member role">
+                                <option value="manager" {% if member.role == "manager" %}selected{% endif %}>
+                                    Manager
+                                </option>
+
+                                <option value="employee" {% if member.role == "employee" %}selected{% endif %}>
+                                    Employee
+                                </option>
+                            </select>
+
+                            <button type="submit">Update</button>
+                        </form>
+
+                        <form method="post" action="{% url 'accounts:remove_business_member' business.id member.id %}">
+                            {% csrf_token %}
+                            <button class="member-remove" type="submit">
+                                Remove
+                            </button>
+                        </form>
+
+                    </div>
+                    {% endif %}
+                </div>
+                {% empty %}
+                <p>No business members found.</p>
+                {% endfor %}
+            </div>
+
+            {% if is_owner %}
+            <div class="add-member-panel">
+                <p class="eyebrow">ADD TEAM MEMBER</p>
+                <h3>Add registered user</h3>
+
+                <form method="post" action="{% url 'accounts:add_business_member' business.id %}">
+                    {% csrf_token %}
+
+                    <label for="member-username">Username</label>
+                    <input type="text" id="member-username" name="username" placeholder="Enter registered username"
+                        required>
+
+                    <label for="member-role">Business role</label>
+                    <select id="member-role" name="role" required>
+                        <option value="employee">Employee</option>
+                        <option value="manager">Manager</option>
+                    </select>
+
+                    <button class="button button--dark" type="submit">
+                        Add Member
+                    </button>
+                </form>
+            </div>
+            {% endif %}
+
+        </article>
+
+    </div>
+
+    <div class="business-profile-footer">
+        <a class="text-link" href="{% url 'accounts:dashboard' %}">
+            ← Back to dashboard
+        </a>
+
+        {% if can_manage %}
+        <a class="button button--dark" href="{% url 'marketplace:create_work' %}">
+            + Post New Work
+        </a>
+        {% endif %}
+    </div>
+
+</section>
+{% endblock %}

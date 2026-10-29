@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Business Verification | GarmentHub{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/verification.css' %}">
+
+<section class="verification-page">
+
+    <div class="verification-heading">
+
+        <span class="verification-eyebrow">
+            BUSINESS VERIFICATION
+        </span>
+
+        <h1>Verify your business.</h1>
+
+        <p>
+            Submit your business information and supporting
+            document to request verification.
+        </p>
+
+    </div>
+
+    <div class="verification-layout">
+
+        <div class="verification-form-card">
+
+            <div class="verification-card-heading">
+                <span>01 / BUSINESS DETAILS</span>
+                <h2>{{ business.name }}</h2>
+                <p>{{ business.get_business_type_display }} — {{ business.city }}</p>
+            </div>
+
+            <form method="post" enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="verification-errors">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                {% for field in form.visible_fields %}
+
+                    <div class="verification-field">
+
+                        <label for="{{ field.id_for_label }}">
+                            {{ field.label }}
+                        </label>
+
+                        {{ field }}
+
+                        {% if field.help_text %}
+                            <small>{{ field.help_text }}</small>
+                        {% endif %}
+
+                        {% for error in field.errors %}
+                            <p class="verification-error">{{ error }}</p>
+                        {% endfor %}
+
+                    </div>
+
+                {% endfor %}
+
+                <button type="submit" class="verification-submit">
+                    Submit Verification Request
+                </button>
+
+            </form>
+
+        </div>
+
+        <aside class="verification-sidebar">
+
+            <span class="verification-eyebrow">
+                BEFORE YOU SUBMIT
+            </span>
+
+            <h3>What happens next?</h3>
+
+            <div class="verification-step">
+                <strong>01</strong>
+                <p>Submit your business details and document.</p>
+            </div>
+
+            <div class="verification-step">
+                <strong>02</strong>
+                <p>Our admin team reviews the submitted information.</p>
+            </div>
+
+            <div class="verification-step">
+                <strong>03</strong>
+                <p>If approved, a verified badge appears on your public profile.</p>
+            </div>
+
+            <p class="verification-note">
+                Verification confirms that submitted business
+                information has been reviewed. It is not a
+                guarantee of work quality or transaction safety.
+            </p>
+
+        </aside>
+
+    </div>
+
+</section>
+
+{% endblock %}

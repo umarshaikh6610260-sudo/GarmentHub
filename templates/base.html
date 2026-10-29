@@ -1,0 +1,139 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#172d27">
+    <meta name="description"
+        content="GarmentHub connects garment businesses, fabric suppliers, factories and job workers.">
+    <title>{% block title %}GarmentHub — The work behind what we wear{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <div class="announcement">
+        <div class="container announcement__inner">
+            <p>BUILT FOR THE PEOPLE WHO MAKE CLOTHING HAPPEN.</p>
+            <a href="{% url 'marketplace:how_it_works' %}">See how it works <span aria-hidden="true">↗</span></a>
+        </div>
+    </div>
+
+    <header class="site-header">
+        <div class="container header__inner">
+            <a class="brand" href="{% url 'home:index' %}" aria-label="GarmentHub home">
+                <span class="brand__mark" aria-hidden="true"><span></span><span></span><span></span></span>
+                <span class="brand__name">garment<span>hub</span><small>THE MAKING NETWORK</small></span>
+            </a>
+
+
+            <nav class="main-nav" aria-label="Main navigation">
+
+                <a href="{% url 'marketplace:home' %}">
+                    Marketplace
+                </a>
+
+                <a href="{% url 'marketplace:how_it_works' %}">
+                    How it works
+                </a>
+
+                {% if user.is_authenticated %}
+                <a href="{% url 'accounts:dashboard' %}">
+                    For businesses
+                </a>
+
+                <a href="{% url 'marketplace:workspace' %}">
+                    My Workspace
+                </a>
+
+                <a href="{% url 'marketplace:notifications' %}">
+                    Notifications
+
+                    {% if unread_notification_count %}
+                    <span class="nav-notification-count">
+                        {{ unread_notification_count }}
+                    </span>
+                    {% endif %}
+                </a>
+                {% else %}
+                <a href="{% url 'accounts:login' %}">
+                    For businesses
+                </a>
+                {% endif %}
+
+                <a href="{% url 'accounts:supplier_directory' %}">
+                    Find Suppliers
+                </a>
+
+                {% if user.is_authenticated %}
+
+                <a href="{% url 'messaging:inbox' %}">
+                    Messages
+                </a>
+
+                {% endif %}
+
+                <!-- {% load i18n %}
+
+                <form action="{% url 'set_language' %}" method="post" class="language-form">
+                    {% csrf_token %}
+
+                    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+
+                    {% get_current_language as CURRENT_LANGUAGE %}
+
+                    <select name="language" aria-label="Select language">
+                        <option value="en" {% if CURRENT_LANGUAGE == "en" %}selected{% endif %}>
+                            English
+                        </option>
+
+                        <option value="hi" {% if CURRENT_LANGUAGE == "hi" %}selected{% endif %}>
+                            हिन्दी
+                        </option>
+
+                        <option value="gu" {% if CURRENT_LANGUAGE == "gu" %}selected{% endif %}>
+                            ગુજરાતી
+                        </option>
+                    </select>
+
+                    <button type="submit">Apply</button>
+                </form> -->
+
+            </nav>
+
+
+            <div class="header-actions">
+                <a class="header-login" href="{% url 'accounts:login' %}">Log in <span aria-hidden="true">↗</span></a>
+                <a class="button button--dark button--small" href="{% url 'accounts:register' %}">Join the network <span
+                        aria-hidden="true">↗</span></a>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer__top">
+            <a class="brand brand--footer" href="{% url 'home:index' %}">
+                <span class="brand__mark" aria-hidden="true"><span></span><span></span><span></span></span>
+                <span class="brand__name">garment<span>hub</span><small>THE MAKING NETWORK</small></span>
+            </a>
+            <p>Good work deserves to find<br>the right hands.</p>
+            <a class="footer-contact" href="mailto:hello@garmenthub.example">Start a conversation <span
+                    aria-hidden="true">↗</span></a>
+        </div>
+        <div class="container footer__bottom">
+            <span>© {% now "Y" %} GarmentHub</span>
+            <span>Made for the garment trade.</span>
+            <a href="#main-content">Back to top ↑</a>
+        </div>
+    </footer>
+</body>
+
+</html>

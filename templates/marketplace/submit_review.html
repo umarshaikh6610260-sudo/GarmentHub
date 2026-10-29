@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Review Business | GarmentHub{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/reviews.css' %}">
+
+<section class="review-page">
+
+    <div class="review-heading">
+        <span class="review-eyebrow">COMPLETED WORK</span>
+        <h1>Share your experience.</h1>
+        <p>
+            Your feedback helps other businesses choose
+            reliable garment industry partners.
+        </p>
+    </div>
+
+    <div class="review-layout">
+
+        <div class="review-form-panel">
+
+            <span class="review-eyebrow">WRITE A REVIEW</span>
+
+            <h2>{{ reviewed_business.name }}</h2>
+
+            <p class="review-subtitle">
+                Work: {{ work.title }}
+            </p>
+
+            <form method="post">
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="review-error">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                {% for field in form %}
+
+                    <div class="review-field">
+
+                        <label for="{{ field.id_for_label }}">
+                            {{ field.label }}
+                        </label>
+
+                        {{ field }}
+
+                        {% for error in field.errors %}
+                            <p class="review-error">{{ error }}</p>
+                        {% endfor %}
+
+                    </div>
+
+                {% endfor %}
+
+                <button type="submit" class="review-submit">
+                    Publish Review
+                </button>
+
+            </form>
+
+        </div>
+
+        <aside class="review-aside">
+            <span class="review-eyebrow">REVIEW GUIDELINES</span>
+
+            <h3>Keep it useful.</h3>
+
+            <p>
+                Describe communication, delivery,
+                quality and overall experience.
+            </p>
+
+            <p>
+                Reviews can only be submitted after
+                a work request is completed.
+            </p>
+
+            <p>
+                Do not include private contact details
+                or sensitive business information.
+            </p>
+        </aside>
+
+    </div>
+
+</section>
+
+{% endblock %}

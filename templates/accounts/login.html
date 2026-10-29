@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Log in — GarmentHub{% endblock %}
+
+{% block content %}
+<section class="account-section">
+    <div class="container account-layout">
+        <div class="account-intro">
+            <p class="eyebrow">GOOD TO HAVE YOU BACK</p>
+            <h1>Let's get<br>back to <em>work.</em></h1>
+            <p>Sign in to check your businesses, open requirements and active orders.</p>
+        </div>
+
+        <form class="account-form" method="post">
+            {% csrf_token %}
+            <p class="eyebrow">WELCOME BACK / SIGN IN</p>
+
+            {% if form.errors %}
+            <div class="form-errors">
+                Your username or password was not accepted. Please try again.
+            </div>
+            {% endif %}
+
+            {% for field in form %}
+            <div class="form-field">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                <div class="form-errors">{{ field.errors }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+
+            {% if next %}
+            <input type="hidden" name="next" value="{{ next }}">
+            {% endif %}
+
+            <button class="button button--dark" type="submit">
+                Log in <span aria-hidden="true">↗</span>
+            </button>
+
+            <p class="account-switch">
+                <a href="{% url 'password_reset' %}">Forgot your password?</a>
+            </p>
+
+            <p class="account-switch">
+                New to GarmentHub?
+                <a href="{% url 'accounts:register' %}">Create an account</a>
+            </p>
+        </form>
+    </div>
+</section>
+{% endblock %}

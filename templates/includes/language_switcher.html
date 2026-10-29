@@ -1,0 +1,46 @@
+<!-- {% load i18n %}
+
+{% get_current_language as CURRENT_LANGUAGE %}
+
+<form
+    action="{% url 'set_language' %}"
+    method="post"
+    class="gh-language-switcher"
+>
+    {% csrf_token %}
+
+    <input
+        type="hidden"
+        name="next"
+        value="{{ request.get_full_path }}"
+    >
+
+    <label for="gh-language-select">
+        {% trans "Language" %}
+    </label>
+
+    <select
+        name="language"
+        id="gh-language-select"
+        aria-label="{% trans 'Select language' %}"
+    >
+        <option value="en"
+            {% if CURRENT_LANGUAGE == "en" %}selected{% endif %}>
+            English
+        </option>
+
+        <option value="hi"
+            {% if CURRENT_LANGUAGE == "hi" %}selected{% endif %}>
+            हिन्दी
+        </option>
+
+        <option value="gu"
+            {% if CURRENT_LANGUAGE == "gu" %}selected{% endif %}>
+            ગુજરાતી
+        </option>
+    </select>
+
+    <button type="submit">
+        {% trans "Apply" %}
+    </button>
+</form> -->

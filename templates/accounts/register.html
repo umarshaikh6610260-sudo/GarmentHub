@@ -1,0 +1,47 @@
+
+{% extends "base.html" %}
+
+{% block title %}Create account — GarmentHub{% endblock %}
+
+{% block content %}
+<section class="account-section">
+    <div class="container account-layout">
+        <div class="account-intro">
+            <p class="eyebrow">YOUR NEXT CHAPTER STARTS HERE</p>
+            <h1>Make room<br>for <em>better work.</em></h1>
+            <p>Create your account to connect with garment businesses, production units, suppliers and job workers.</p>
+        </div>
+
+        <form class="account-form" method="post">
+            {% csrf_token %}
+            <p class="eyebrow">CREATE YOUR ACCOUNT / 01</p>
+
+            {% if form.non_field_errors %}
+                <div class="form-errors">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            {% for field in form %}
+                <div class="form-field">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <div class="form-help">{{ field.help_text|safe }}</div>
+                    {% endif %}
+                    {% if field.errors %}
+                        <div class="form-errors">{{ field.errors }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <button class="button button--dark" type="submit">
+                Create account <span aria-hidden="true">↗</span>
+            </button>
+
+            <p class="account-switch">
+                Already registered?
+                <a href="{% url 'accounts:login' %}">Log in here</a>
+            </p>
+        </form>
+    </div>
+</section>
+{% endblock %}

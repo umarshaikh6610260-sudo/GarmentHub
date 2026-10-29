@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}GarmentHub — The work behind what we wear{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero__grain" aria-hidden="true"></div>
+    <div class="container hero__grid">
+        <div class="hero__copy">
+            <p class="eyebrow eyebrow--light"><span class="eyebrow__dot"></span> A BETTER WAY TO GET WORK DONE</p>
+            <h1>Every piece has<br>a story. <em>Make yours</em><br>move forward.</h1>
+            <p class="hero__intro">From the first metre of fabric to the final press — find the people, capacity and
+                work your garment business needs.</p>
+            <div class="hero__actions">
+                <a class="button button--lime" href="#marketplace">Explore the network <span
+                        aria-hidden="true">↗</span></a>
+                <a class="text-link text-link--light" href="#how-it-works">See how it works <span
+                        aria-hidden="true">↓</span></a>
+            </div>
+            <div class="hero__proof">
+                <div class="proof-avatars" aria-hidden="true"><span>F</span><span>S</span><span>P</span><span>+</span>
+                </div>
+                <p><strong>For every part of the process</strong><br>Suppliers · Makers · Finishers · Brands</p>
+            </div>
+        </div>
+
+        <div class="hero-art" aria-label="Illustration of layered garment fabric and a stitched label">
+            <div class="hero-art__index">GH / 001 <span>THE MAKING NETWORK</span></div>
+            <div class="fabric fabric--back"></div>
+            <div class="fabric fabric--middle"></div>
+            <div class="fabric fabric--front">
+                <div class="fabric__stitch"></div>
+                <div class="fabric__label">
+                    <span class="label__top">MADE WITH INTENTION</span>
+                    <strong>WORK<br>IN GOOD<br>HANDS.</strong>
+                    <span class="label__bottom">CUT · SEW · FINISH</span>
+                </div>
+            </div>
+            <div class="hero-art__stamp"><span>THE</span><strong>GARMENT<br>TRADE</strong><span>CONNECTED</span></div>
+            <div class="hero-art__caption"><span>01 — 04</span><span>FROM MATERIAL TO FINISH</span></div>
+        </div>
+    </div>
+    <div class="hero__bottom-line" aria-hidden="true"><span></span></div>
+</section>
+
+<section class="ticker" aria-label="Garment processes">
+    <div class="ticker__track">
+        <span>FABRIC</span><i>✳</i><span>CUTTING</span><i>✳</i><span>STITCHING</span><i>✳</i><span>FINISHING</span><i>✳</i><span>PRESSING</span><i>✳</i><span>PACKING</span><i>✳</i>
+        <span>FABRIC</span><i>✳</i><span>CUTTING</span><i>✳</i><span>STITCHING</span><i>✳</i><span>FINISHING</span><i>✳</i><span>PRESSING</span><i>✳</i><span>PACKING</span><i>✳</i>
+    </div>
+</section>
+
+<section class="intro-section section-pad" id="marketplace">
+    <div class="container intro-grid">
+        <div class="section-kicker"><span>01 / THE BIGGER PICTURE</span><span class="kicker-line"></span></div>
+        <div class="intro-copy">
+            <p class="eyebrow">ONE INDUSTRY. MANY MOVING PARTS.</p>
+            <h2>The right work.<br><em>The right people.</em><br>Less chasing.</h2>
+            <div class="intro-bottom">
+                <p>GarmentHub brings the scattered pieces of garment production into one working network. Find a
+                    supplier, place a job, offer your capacity or keep a production run moving — without losing the
+                    thread.</p>
+                <a class="round-link" href="#how-it-works" aria-label="Learn how it works">↘</a>
+            </div>
+        </div>
+        <div class="intro-note">
+            <span class="note-number">GH—NOTE 01</span>
+            <p>Made for the real world of garment work: busy units, changing quantities, tight deadlines and
+                relationships built on getting the job done.</p>
+            <span class="note-rule"></span>
+            <span class="note-signoff">BUILT AROUND THE TRADE</span>
+        </div>
+    </div>
+</section>
+
+<section class="services-section section-pad" id="for-business">
+    <div class="container">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">THE WHOLE SUPPLY CHAIN</p>
+                <h2>Every skill has<br>a place <em>here.</em></h2>
+            </div>
+            <p class="section-heading__aside">Not another generic business tool.<br>A working network for the
+                people<br>who make, move and finish garments.</p>
+        </div>
+
+        <div class="service-grid">
+            <article class="service-card service-card--fabric">
+                <div class="service-card__top"><span>01</span><span class="service-symbol">▧</span></div>
+                <div class="service-art service-art--weave" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span><span></span></div>
+                <div class="service-card__content">
+                    <p>SUPPLY & MATERIAL</p>
+                    <h3>Fabric & trims</h3>
+                    <p>Find material, compare offers and connect with suppliers who can meet your quantity and timeline.
+                    </p><a href="#join" aria-label="Join as a fabric supplier">Explore this side <span>↗</span></a>
+                </div>
+            </article>
+
+            <article class="service-card service-card--cut">
+                <div class="service-card__top"><span>02</span><span class="service-symbol">⌁</span></div>
+                <div class="service-art service-art--pattern" aria-hidden="true">
+                    <div class="pattern-shape"></div>
+                    <div class="pattern-line"></div>
+                </div>
+                <div class="service-card__content">
+                    <p>MAKE & BUILD</p>
+                    <h3>Cutting & stitching</h3>
+                    <p>Match production requirements with workshops, factories and skilled job workers.</p><a
+                        href="#join" aria-label="Join as a manufacturing unit">Explore this side <span>↗</span></a>
+                </div>
+            </article>
+
+            <article class="service-card service-card--finish">
+                <div class="service-card__top"><span>03</span><span class="service-symbol">✳</span></div>
+                <div class="service-art service-art--fold" aria-hidden="true">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div class="service-card__content">
+                    <p>FINISH & DELIVER</p>
+                    <h3>Pressing to packing</h3>
+                    <p>Put finishing capacity to work, keep the quality visible and move orders towards dispatch.</p><a
+                        href="#join" aria-label="Join as a finishing service provider">Explore this side
+                        <span>↗</span></a>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="process-section section-pad" id="how-it-works">
+    <div class="container process-grid">
+        <div class="process-heading">
+            <p class="eyebrow eyebrow--light">A CLEARER WAY FORWARD</p>
+            <h2>From “need this done”<br>to <em>“job delivered.”</em></h2>
+            <p>Less time asking around. More clarity on who is doing what, at what price and by when.</p>
+            <a class="button button--outline" href="#join">Get to know GarmentHub <span>↗</span></a>
+        </div>
+        <div class="process-list">
+            <article class="process-item"><span class="process-item__number">01</span>
+                <div>
+                    <h3>Post the requirement</h3>
+                    <p>Set the process, quantity, target rate, specifications and deadline.</p>
+                </div><span class="process-item__icon">↗</span>
+            </article>
+            <article class="process-item"><span class="process-item__number">02</span>
+                <div>
+                    <h3>Accept or compare offers</h3>
+                    <p>Take an available job directly or choose from provider quotations.</p>
+                </div><span class="process-item__icon">↗</span>
+            </article>
+            <article class="process-item"><span class="process-item__number">03</span>
+                <div>
+                    <h3>Keep the work moving</h3>
+                    <p>Follow assignment, production progress, quality checks and delivery.</p>
+                </div><span class="process-item__icon">↗</span>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="join-section section-pad" id="join">
+    <div class="container join-panel">
+        <div class="join-panel__mark" aria-hidden="true">GH<span>↗</span></div>
+        <div class="join-panel__copy">
+            <p class="eyebrow">YOUR WORK BELONGS IN THE NETWORK</p>
+            <h2>Bring your business.<br><em>Find your next move.</em></h2>
+        </div>
+        <div class="join-panel__action">
+            <p>Whether you supply, make, trade or finish — start with the work you know best.</p><a
+                class="button button--dark" href="mailto:hello@garmenthub.example">Join the network <span>↗</span></a>
+        </div>
+    </div>
+</section>
+{% endblock %}

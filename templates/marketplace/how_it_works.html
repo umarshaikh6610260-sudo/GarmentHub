@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}How GarmentHub Works{% endblock %}
+
+{% block content %}
+<section class="market-section">
+    <p class="eyebrow">A SIMPLE WAY TO WORK TOGETHER</p>
+    <h1>From requirement to production.</h1>
+    <p>GarmentHub connects garment businesses, factories, traders,
+        fabric suppliers and job workers in one network.</p>
+
+    <div class="work-grid">
+        <article class="work-card">
+            <span class="work-category">01 / POST</span>
+            <h3>Describe your requirement</h3>
+            <p class="work-description">
+                Add the work details, quantity, budget, location and deadline.
+            </p>
+        </article>
+
+        <article class="work-card">
+            <span class="work-category">02 / CONNECT</span>
+            <h3>Receive offers</h3>
+            <p class="work-description">
+                Interested businesses can send a quotation for your work.
+            </p>
+        </article>
+
+        <article class="work-card">
+            <span class="work-category">03 / COMPLETE</span>
+            <h3>Get the work done</h3>
+            <p class="work-description">
+                Choose a suitable offer and track your work through the platform.
+            </p>
+        </article>
+    </div>
+
+    <p style="margin-top: 30px;">
+        <a class="button button--dark" href="{% url 'marketplace:home' %}">
+            Explore marketplace ↗
+        </a>
+    </p>
+</section>
+{% endblock %}

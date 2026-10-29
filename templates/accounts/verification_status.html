@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Verification Status | GarmentHub{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/verification.css' %}">
+
+<section class="verification-page">
+
+    <div class="verification-heading">
+
+        <span class="verification-eyebrow">
+            VERIFICATION CENTER
+        </span>
+
+        <h1>Business verification status.</h1>
+
+        <p>{{ business.name }}</p>
+
+    </div>
+
+    <div class="verification-status-card">
+
+        {% if verification %}
+
+            <div class="verification-status-top">
+
+                <div>
+                    <span class="verification-eyebrow">CURRENT STATUS</span>
+                    <h2>{{ verification.get_status_display }}</h2>
+                </div>
+
+                <span class="verification-status-label status-{{ verification.status }}">
+                    {{ verification.get_status_display }}
+                </span>
+
+            </div>
+
+            <div class="verification-status-info">
+
+                <div>
+                    <span>Submitted On</span>
+                    <strong>{{ verification.submitted_at|date:"d M Y" }}</strong>
+                </div>
+
+                <div>
+                    <span>Business Email</span>
+                    <strong>{{ verification.business_email }}</strong>
+                </div>
+
+                {% if verification.reviewed_at %}
+                <div>
+                    <span>Reviewed On</span>
+                    <strong>{{ verification.reviewed_at|date:"d M Y" }}</strong>
+                </div>
+                {% endif %}
+
+            </div>
+
+            {% if verification.status == "pending" %}
+
+                <p class="verification-status-message">
+                    Your verification request is under review.
+                </p>
+
+            {% elif verification.status == "approved" %}
+
+                <p class="verification-status-message">
+                    Your business has been verified.
+                    The verified badge is now visible on your public profile.
+                </p>
+
+                <a class="verification-action"
+                   href="{% url 'accounts:supplier_profile' business.pk %}">
+                    View Public Profile
+                </a>
+
+            {% elif verification.status == "rejected" %}
+
+                <p class="verification-status-message">
+                    Your verification request was not approved.
+                </p>
+
+                {% if verification.rejection_reason %}
+                    <div class="verification-rejection">
+                        <strong>Reason</strong>
+                        <p>{{ verification.rejection_reason }}</p>
+                    </div>
+                {% endif %}
+
+                {% if is_owner %}
+                    <a class="verification-action"
+                       href="{% url 'accounts:request_business_verification' business.pk %}">
+                        Submit Again
+                    </a>
+                {% endif %}
+
+            {% endif %}
+
+        {% else %}
+
+            <h2>Not verified yet</h2>
+
+            <p>
+                This business has not submitted a verification request.
+            </p>
+
+            {% if is_owner %}
+                <a class="verification-action"
+                   href="{% url 'accounts:request_business_verification' business.pk %}">
+                    Request Verification
+                </a>
+            {% endif %}
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

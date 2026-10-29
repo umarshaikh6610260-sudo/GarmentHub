@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Conversation | GarmentHub{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/messaging.css' %}">
+
+<section class="gh-message-page">
+
+    <a href="{% url 'messaging:inbox' %}"
+       class="gh-back-link">
+        &larr; Back to Inbox
+    </a>
+
+    <div class="gh-chat-layout">
+
+        <div class="gh-chat-main">
+
+            <div class="gh-chat-header">
+
+                <span class="gh-eyebrow">BUSINESS CONVERSATION</span>
+
+                <h1>{{ conversation.subject }}</h1>
+
+                <p>
+                    {{ conversation.business_one.name }}
+                    &harr;
+                    {{ conversation.business_two.name }}
+                </p>
+
+            </div>
+
+            <div class="gh-chat-messages">
+
+                {% if page_obj.has_previous %}
+                    <a class="gh-older-messages"
+                       href="?page={{ page_obj.previous_page_number }}">
+                        &larr; Older Messages
+                    </a>
+                {% endif %}
+
+                {% for message in chat_messages %}
+
+                    <div class="gh-chat-message">
+
+                        <div class="gh-message-meta">
+                            <strong>
+                                {{ message.sender_business.name }}
+                            </strong>
+
+                            <span>
+                                {{ message.created_at|date:"d M Y, h:i A" }}
+                            </span>
+                        </div>
+
+                        <p>{{ message.body|linebreaksbr }}</p>
+
+                    </div>
+
+                {% empty %}
+
+                    <div class="gh-empty-state">
+                        <p>No messages in this conversation.</p>
+                    </div>
+
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <a class="gh-older-messages"
+                       href="?page={{ page_obj.next_page_number }}">
+                        Newer Messages &rarr;
+                    </a>
+                {% endif %}
+
+            </div>
+
+            <div class="gh-chat-actions">
+
+                <form
+                    method="post"
+                    action="{% url 'messaging:mark_read' conversation.pk %}"
+                >
+                    {% csrf_token %}
+
+                    <button type="submit" class="gh-read-button">
+                        Mark Conversation as Read
+                    </button>
+                </form>
+
+            </div>
+
+            {% if sender_businesses %}
+
+                <div class="gh-message-composer">
+
+                    <h2>Send a Message</h2>
+
+                    <form
+                        method="post"
+                        action="{% url 'messaging:send_message' conversation.pk %}"
+                    >
+                        {% csrf_token %}
+
+                        <div class="gh-form-field">
+                            <label for="sender_business">
+                                Send as business
+                            </label>
+
+                            <select
+                                name="sender_business"
+                                id="sender_business"
+                                required
+                            >
+
+                                {% for business in sender_businesses %}
+                                    <option value="{{ business.pk }}">
+                                        {{ business.name }}
+                                    </option>
+                                {% endfor %}
+
+                            </select>
+                        </div>
+
+                        <div class="gh-form-field">
+                            {{ message_form.body.label_tag }}
+                            {{ message_form.body }}
+                        </div>
+
+                        <button type="submit" class="gh-submit-button">
+                            Send Message
+                        </button>
+
+                    </form>
+
+                </div>
+
+            {% else %}
+
+                <div class="gh-readonly-notice">
+                    You have read-only access to this conversation.
+                </div>
+
+            {% endif %}
+
+        </div>
+
+        <aside class="gh-chat-sidebar">
+
+            <span class="gh-eyebrow">CONVERSATION DETAILS</span>
+
+            <h2>Participating Businesses</h2>
+
+            <div class="gh-business-mini">
+                <strong>{{ conversation.business_one.name }}</strong>
+                <span>{{ conversation.business_one.city }}</span>
+            </div>
+
+            <div class="gh-business-mini">
+                <strong>{{ conversation.business_two.name }}</strong>
+                <span>{{ conversation.business_two.city }}</span>
+            </div>
+
+            <div class="gh-sidebar-note">
+                Keep your communication professional.
+                Do not share passwords or sensitive
+                financial information in messages.
+            </div>
+
+        </aside>
+
+    </div>
+
+</section>
+
+{% endblock %}

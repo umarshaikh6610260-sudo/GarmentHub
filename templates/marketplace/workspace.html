@@ -1,0 +1,297 @@
+```html
+{% extends "base.html" %}
+
+{% block title %}My Workspace | GarmentHub{% endblock %}
+
+{% block content %}
+<section class="workspace-page">
+
+    <div class="workspace-heading">
+        <div>
+            <p class="eyebrow">GARMENTHUB / BUSINESS PANEL</p>
+            <h1>My Workspace<span>.</span></h1>
+            <p>Manage your production work, offers and business opportunities.</p>
+        </div>
+
+        <a class="button button--dark"
+           href="{% url 'marketplace:create_work' %}">
+            + Post New Work
+        </a>
+    </div>
+
+    <!-- DASHBOARD STATS -->
+    <div class="workspace-stats">
+        <article class="workspace-stat">
+            <span>YOUR BUSINESSES</span>
+            <strong>{{ businesses|length }}</strong>
+        </article>
+
+        <article class="workspace-stat">
+            <span>OPEN WORK</span>
+            <strong>{{ open_count }}</strong>
+        </article>
+
+        <article class="workspace-stat">
+            <span>YOUR ASSIGNED WORK</span>
+            <strong>{{ assigned_work_count }}</strong>
+        </article>
+
+        <article class="workspace-stat">
+            <span>COMPLETED WORK</span>
+            <strong>{{ completed_work_count }}</strong>
+        </article>
+
+        <article class="workspace-stat">
+            <span>OFFERS RECEIVED</span>
+            <strong>{{ received_count }}</strong>
+        </article>
+
+        <article class="workspace-stat">
+            <span>OFFERS SENT</span>
+            <strong>{{ sent_count }}</strong>
+        </article>
+    </div>
+
+    <!-- WORK POSTED BY MY BUSINESS -->
+    <section class="workspace-section">
+        <div class="workspace-section-heading">
+            <div>
+                <p class="eyebrow">01 / YOUR LISTINGS</p>
+                <h2>Work you posted</h2>
+            </div>
+            <a class="text-link" href="{% url 'marketplace:home' %}">
+                Explore marketplace ↗
+            </a>
+        </div>
+
+        <div class="workspace-table-wrap">
+            <table class="workspace-table">
+                <thead>
+                    <tr>
+                        <th>Work</th>
+                        <th>Business</th>
+                        <th>Budget</th>
+                        <th>Deadline</th>
+                        <th>Status</th>
+                        <th>Offers</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for work in posted_works %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'marketplace:work_detail' work.id %}">
+                                {{ work.title }}
+                            </a>
+                        </td>
+                        <td>{{ work.business.name }}</td>
+                        <td>₹{{ work.budget|floatformat:2 }}</td>
+                        <td>{{ work.deadline|date:"d M Y" }}</td>
+                        <td>
+                            <span class="workspace-status">
+                                {{ work.get_status_display }}
+                            </span>
+                        </td>
+                        <td>{{ work.offers.count }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6">
+                            You haven't posted any work yet.
+                            <a href="{% url 'marketplace:create_work' %}">
+                                Create your first request
+                            </a>.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- OFFERS RECEIVED -->
+    <section class="workspace-section">
+        <div class="workspace-section-heading">
+            <div>
+                <p class="eyebrow">02 / INCOMING</p>
+                <h2>Offers received</h2>
+                <p>Review offers from suppliers and service providers.</p>
+            </div>
+        </div>
+
+        <div class="workspace-offer-list">
+            {% for offer in received_offers %}
+            <article class="workspace-offer">
+                <div>
+                    <p class="eyebrow">
+                        {{ offer.work_request.get_category_display }}
+                    </p>
+                    <h3>{{ offer.work_request.title }}</h3>
+                    <p>{{ offer.business.name }}</p>
+                </div>
+
+                <div>
+                    <span class="workspace-muted">OFFER AMOUNT</span>
+                    <strong>
+                        {% if offer.quoted_price != None %}
+                            ₹{{ offer.quoted_price|floatformat:2 }}
+                        {% else %}
+                            ₹{{ offer.work_request.budget|floatformat:2 }}
+                        {% endif %}
+                    </strong>
+                </div>
+
+                <div>
+                    <span class="workspace-muted">STATUS</span>
+                    <strong>{{ offer.get_status_display }}</strong>
+                </div>
+
+                <a class="text-link"
+                   href="{% url 'marketplace:work_detail' offer.work_request.id %}">
+                    Review offer ↗
+                </a>
+            </article>
+            {% empty %}
+            <p class="workspace-empty">No offers have been received yet.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- OFFERS SENT -->
+    <section class="workspace-section">
+        <div class="workspace-section-heading">
+            <div>
+                <p class="eyebrow">03 / OUTGOING</p>
+                <h2>Offers you sent</h2>
+                <p>Track every quotation submitted by your business.</p>
+            </div>
+        </div>
+
+        <div class="workspace-offer-list">
+            {% for offer in sent_offers %}
+            <article class="workspace-offer">
+                <div>
+                    <p class="eyebrow">
+                        {{ offer.work_request.get_category_display }}
+                    </p>
+                    <h3>{{ offer.work_request.title }}</h3>
+                    <p>Posted by {{ offer.work_request.business.name }}</p>
+                </div>
+
+                <div>
+                    <span class="workspace-muted">YOUR OFFER</span>
+                    <strong>
+                        {% if offer.quoted_price != None %}
+                            ₹{{ offer.quoted_price|floatformat:2 }}
+                        {% else %}
+                            ₹{{ offer.work_request.budget|floatformat:2 }}
+                        {% endif %}
+                    </strong>
+                </div>
+
+                <div>
+                    <span class="workspace-muted">OFFER STATUS</span>
+                    <strong>{{ offer.get_status_display }}</strong>
+                </div>
+
+                <a class="text-link"
+                   href="{% url 'marketplace:work_detail' offer.work_request.id %}">
+                    View work ↗
+                </a>
+            </article>
+            {% empty %}
+            <p class="workspace-empty">
+                You haven't submitted any offers yet.
+                <a href="{% url 'marketplace:home' %}">Explore available work ↗</a>
+            </p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- CURRENTLY ASSIGNED WORK -->
+    <section class="workspace-section">
+        <div class="workspace-section-heading">
+            <div>
+                <p class="eyebrow">04 / IN PROGRESS</p>
+                <h2>Your assigned work</h2>
+                <p>Work requests for which your offer has been accepted.</p>
+            </div>
+        </div>
+
+        <div class="workspace-offer-list">
+            {% for work in assigned_work %}
+            <article class="workspace-offer">
+                <div>
+                    <p class="eyebrow">{{ work.get_category_display }}</p>
+                    <h3>{{ work.title }}</h3>
+                    <p>Posted by {{ work.business.name }}</p>
+                </div>
+
+                <div>
+                    <span class="workspace-muted">QUANTITY</span>
+                    <strong>{{ work.quantity }} {{ work.unit }}</strong>
+                </div>
+
+                <div>
+                    <span class="workspace-muted">DEADLINE</span>
+                    <strong>{{ work.deadline|date:"d M Y" }}</strong>
+                </div>
+
+                <a class="text-link"
+                   href="{% url 'marketplace:work_detail' work.id %}">
+                    View details ↗
+                </a>
+            </article>
+            {% empty %}
+            <p class="workspace-empty">
+                No assigned work at the moment. Check the marketplace for new opportunities.
+            </p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- COMPLETED WORK HISTORY -->
+    <section class="workspace-section">
+        <div class="workspace-section-heading">
+            <div>
+                <p class="eyebrow">05 / COMPLETED</p>
+                <h2>Completed work history</h2>
+                <p>Previously assigned work marked as completed.</p>
+            </div>
+        </div>
+
+        <div class="workspace-offer-list">
+            {% for work in completed_work %}
+            <article class="workspace-offer">
+                <div>
+                    <p class="eyebrow">{{ work.get_category_display }}</p>
+                    <h3>{{ work.title }}</h3>
+                    <p>Posted by {{ work.business.name }}</p>
+                </div>
+
+                <div>
+                    <span class="workspace-muted">QUANTITY</span>
+                    <strong>{{ work.quantity }} {{ work.unit }}</strong>
+                </div>
+
+                <div>
+                    <span class="workspace-muted">STATUS</span>
+                    <strong>{{ work.get_status_display }}</strong>
+                </div>
+
+                <a class="text-link"
+                   href="{% url 'marketplace:work_detail' work.id %}">
+                    View details ↗
+                </a>
+            </article>
+            {% empty %}
+            <p class="workspace-empty">
+                Your completed work history will appear here.
+            </p>
+            {% endfor %}
+        </div>
+    </section>
+
+</section>
+{% endblock %}
+```

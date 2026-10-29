@@ -1,0 +1,56 @@
+
+{% extends "base.html" %}
+
+{% block title %}Your workspace — GarmentHub{% endblock %}
+
+{% block content %}
+<section class="account-section">
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="notice">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="dashboard-heading">
+            <div>
+                <p class="eyebrow">YOUR GARMENTHUB WORKSPACE</p>
+                <h1>Good to see you, {{ request.user.first_name|default:request.user.username }}.</h1>
+            </div>
+            <a class="button button--dark" href="{% url 'accounts:create_business' %}">
+                Add a business <span aria-hidden="true">↗</span>
+            </a>
+        </div>
+
+        <p class="eyebrow">YOUR BUSINESSES</p>
+
+        {% if businesses %}
+            <div class="business-grid">
+                {% for business in businesses %}
+                    <article class="business-card">
+                        <p class="eyebrow">{{ business.get_business_type_display }}</p>
+                        <h2>{{ business.name }}</h2>
+                        <p>{{ business.city }}</p>
+                        <a class="text-link" href="{% url 'accounts:business_detail' business.id %}">
+                            View business <span>↗</span>
+                        </a>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="account-form">
+                <h2>No business added yet.</h2>
+                <p class="form-help">Create your first business profile to get your workspace started.</p>
+                <a class="button button--dark" href="{% url 'accounts:create_business' %}">
+                    Create your business <span>↗</span>
+                </a>
+            </div>
+        {% endif %}
+
+        <form method="post" action="{% url 'accounts:logout' %}" style="margin-top: 30px;">
+            {% csrf_token %}
+            <button class="text-link" type="submit">Log out ↗</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

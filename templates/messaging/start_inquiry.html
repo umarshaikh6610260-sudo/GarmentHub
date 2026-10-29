@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Send Inquiry | GarmentHub{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/messaging.css' %}">
+
+<section class="gh-message-page">
+
+    <div class="gh-message-heading">
+        <div>
+            <span class="gh-eyebrow">NEW BUSINESS INQUIRY</span>
+
+            <h1>Start a conversation.</h1>
+
+            <p>
+                Send your business inquiry directly
+                to the supplier or manufacturer.
+            </p>
+        </div>
+    </div>
+
+    <div class="gh-inquiry-layout">
+
+        <div class="gh-inquiry-form">
+
+            <div class="gh-panel-heading">
+                <h2>Inquiry Details</h2>
+            </div>
+
+            <form method="post">
+
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="gh-form-error">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                {% for field in form %}
+
+                    <div class="gh-form-field">
+
+                        <label for="{{ field.id_for_label }}">
+                            {{ field.label }}
+                        </label>
+
+                        {{ field }}
+
+                        {% for error in field.errors %}
+                            <p class="gh-form-error">{{ error }}</p>
+                        {% endfor %}
+
+                    </div>
+
+                {% endfor %}
+
+                <button type="submit" class="gh-submit-button">
+                    Send Inquiry
+                </button>
+
+            </form>
+
+        </div>
+
+        <aside class="gh-inquiry-receiver">
+
+            <span class="gh-eyebrow">RECEIVING BUSINESS</span>
+
+            <div class="gh-receiver-avatar">
+                {{ receiver.name|slice:":1"|upper }}
+            </div>
+
+            <h2>{{ receiver.name }}</h2>
+
+            <p>{{ receiver.get_business_type_display }}</p>
+
+            <span>{{ receiver.city }}</span>
+
+            <a href="{% url 'accounts:supplier_profile' receiver.pk %}">
+                View Business Profile &rarr;
+            </a>
+
+        </aside>
+
+    </div>
+
+</section>
+
+{% endblock %}

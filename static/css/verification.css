@@ -1,0 +1,341 @@
+/* =========================================
+   GARMENTHUB BUSINESS VERIFICATION
+========================================= */
+
+.verification-page {
+    width: 100%;
+    min-height: 70vh;
+    padding: 70px 6% 100px;
+    box-sizing: border-box;
+    background: #f6f7f5;
+}
+
+.verification-heading {
+    max-width: 760px;
+    margin-bottom: 40px;
+}
+
+.verification-eyebrow {
+    display: block;
+    margin-bottom: 14px;
+    color: #a77d53;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.verification-heading h1 {
+    margin: 0 0 15px;
+    color: #142a32;
+    font-size: clamp(34px, 4.5vw, 60px);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -1.5px;
+}
+
+.verification-heading p {
+    color: #667378;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.verification-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(280px, .7fr);
+    gap: 28px;
+    align-items: start;
+}
+
+.verification-form-card,
+.verification-sidebar,
+.verification-status-card {
+    min-width: 0;
+    padding: 35px;
+    background: #fff;
+    border: 1px solid #e3e8e5;
+}
+
+.verification-card-heading {
+    margin-bottom: 30px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #edf0ee;
+}
+
+.verification-card-heading span {
+    display: block;
+    margin-bottom: 10px;
+    color: #a17b55;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+}
+
+.verification-card-heading h2 {
+    margin: 0 0 8px;
+    color: #183139;
+    font-size: 25px;
+}
+
+.verification-card-heading p {
+    margin: 0;
+    color: #718084;
+    font-size: 13px;
+}
+
+.verification-field {
+    margin-bottom: 25px;
+}
+
+.verification-field label {
+    display: block;
+    margin-bottom: 10px;
+    color: #2b3e44;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.verification-field input {
+    display: block;
+    width: 100%;
+    min-height: 46px;
+    padding: 12px 14px;
+    box-sizing: border-box;
+    border: 1px solid #d9e0dc;
+    border-radius: 3px;
+    background: #fff;
+    color: #203239;
+    font: inherit;
+    font-size: 13px;
+}
+
+.verification-field input[type="file"] {
+    height: auto;
+    cursor: pointer;
+}
+
+.verification-field input:focus {
+    outline: none;
+    border-color: #a77d53;
+}
+
+.verification-field small {
+    display: block;
+    margin-top: 8px;
+    color: #7c898b;
+    font-size: 11px;
+}
+
+.verification-error,
+.verification-errors {
+    margin-top: 8px;
+    color: #b33e3e;
+    font-size: 12px;
+}
+
+.verification-submit,
+.verification-action {
+    display: inline-block;
+    padding: 15px 24px;
+    border: none;
+    border-radius: 3px;
+    background: #142a32;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background .2s ease;
+}
+
+.verification-submit:hover,
+.verification-action:hover {
+    background: #2b4a54;
+}
+
+.verification-sidebar h3 {
+    margin: 0 0 28px;
+    color: #19333b;
+    font-size: 23px;
+}
+
+.verification-step {
+    display: flex;
+    gap: 18px;
+    padding: 18px 0;
+    border-bottom: 1px solid #edf0ee;
+}
+
+.verification-step strong {
+    color: #aa845d;
+    font-size: 14px;
+}
+
+.verification-step p {
+    margin: 0;
+    color: #607075;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.verification-note {
+    margin-top: 28px;
+    padding: 18px;
+    background: #f7f5f0;
+    color: #6b6b61;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.verification-status-card {
+    max-width: 900px;
+}
+
+.verification-status-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #edf0ee;
+}
+
+.verification-status-top h2 {
+    margin: 0;
+    color: #183139;
+    font-size: 28px;
+}
+
+.verification-status-label {
+    padding: 9px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.status-pending {
+    background: #fff4d9;
+    color: #8b6218;
+}
+
+.status-approved {
+    background: #e2f2e7;
+    color: #267445;
+}
+
+.status-rejected {
+    background: #fde9e9;
+    color: #a63a3a;
+}
+
+.verification-status-info {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 25px;
+    padding: 30px 0;
+}
+
+.verification-status-info > div {
+    display: grid;
+    gap: 8px;
+}
+
+.verification-status-info span {
+    color: #849094;
+    font-size: 12px;
+}
+
+.verification-status-info strong {
+    color: #21363d;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+.verification-status-message {
+    margin: 15px 0 25px;
+    color: #637278;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.verification-rejection {
+    margin-bottom: 25px;
+    padding: 20px;
+    background: #fff3f1;
+    border-left: 3px solid #bc5750;
+}
+
+.verification-rejection strong {
+    color: #963b35;
+    font-size: 13px;
+}
+
+.verification-rejection p {
+    color: #7e5551;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.verified-business-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    padding: 6px 11px;
+    background: #e4f2e9;
+    color: #257044;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 3px;
+}
+
+.business-verification-link {
+    margin-top: 30px;
+    padding: 25px;
+    background: #f7f9f7;
+    border: 1px solid #e2e8e3;
+}
+
+.business-verification-link h3 {
+    margin: 0 0 10px;
+    color: #1b333b;
+}
+
+.business-verification-link p {
+    color: #69787b;
+    font-size: 13px;
+}
+
+.business-verification-link a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #245d49;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+@media (max-width: 900px) {
+    .verification-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .verification-page {
+        padding: 45px 5% 70px;
+    }
+
+    .verification-form-card,
+    .verification-sidebar,
+    .verification-status-card {
+        padding: 22px;
+    }
+
+    .verification-status-info {
+        grid-template-columns: 1fr;
+    }
+
+    .verification-status-top {
+        flex-direction: column;
+    }
+}

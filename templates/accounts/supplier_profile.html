@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ business.name }} | GarmentHub{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/supplier.css' %}">
+
+<link rel="stylesheet" href="{% static 'css/reviews.css' %}">
+
+<section class="supplier-profile-hero">
+
+    <div class="supplier-profile-identity">
+
+        <a href="{% url 'accounts:supplier_directory' %}" class="supplier-back">
+            &larr; Back to Directory
+        </a>
+
+        <div class="supplier-profile-header">
+            <div class="supplier-profile-avatar">
+                {{ business.name|slice:":1"|upper }}
+            </div>
+
+            <div>
+                <span class="section-eyebrow">
+                    BUSINESS PROFILE
+                </span>
+
+                <h1>{{ business.name }}</h1>
+
+                {% if business.verification.status == "approved" %}
+                <span class="verified-business-badge">
+                    &#10003; Verified Business
+                </span>
+                {% endif %}
+
+                <p>
+                    {{ business.get_business_type_display }}
+                    <span class="supplier-dot">&bull;</span>
+                    {{ business.city }}
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="supplier-profile-layout">
+
+    <main class="supplier-profile-main">
+
+        <article class="supplier-profile-panel">
+            <span class="section-eyebrow">ABOUT THE BUSINESS</span>
+
+            <h2>What we do</h2>
+
+            {% if business.description %}
+            <p>{{ business.description|linebreaksbr }}</p>
+            {% else %}
+            <p>
+                This business has not added a detailed
+                description yet.
+            </p>
+            {% endif %}
+        </article>
+
+        <article class="supplier-profile-panel">
+            <span class="section-eyebrow">WORK OPPORTUNITIES</span>
+
+            <h2>Open work requests</h2>
+
+            {% for work in posted_works %}
+
+            <div class="supplier-work-row">
+                <div>
+                    <span>{{ work.get_category_display }}</span>
+                    <h3>{{ work.title }}</h3>
+                    <p>
+                        {{ work.city }} &bull;
+                        Deadline: {{ work.deadline|date:"d M Y" }}
+                    </p>
+                </div>
+
+                <a href="{% url 'marketplace:work_detail' work.pk %}">
+                    View Work &rarr;
+                </a>
+            </div>
+
+            {% empty %}
+
+            <p>
+                No open work requests from this business
+                right now.
+            </p>
+
+            {% endfor %}
+        </article>
+
+    </main>
+
+    <aside class="supplier-profile-sidebar">
+
+        <div class="supplier-contact-card">
+            <span class="section-eyebrow">BUSINESS INFORMATION</span>
+
+            <h2>Business Details</h2>
+
+            <div class="supplier-info-item">
+                <span>Business Type</span>
+                <strong>{{ business.get_business_type_display }}</strong>
+            </div>
+
+            <div class="supplier-info-item">
+                <span>City</span>
+                <strong>{{ business.city }}</strong>
+            </div>
+
+            {% if business.address %}
+            <div class="supplier-info-item">
+                <span>Address</span>
+                <strong>{{ business.address|linebreaksbr }}</strong>
+            </div>
+            {% endif %}
+
+            {% if business.phone %}
+            <div class="supplier-info-item">
+                <span>Contact Number</span>
+                <a href="tel:{{ business.phone }}">
+                    {{ business.phone }}
+                </a>
+            </div>
+            {% endif %}
+
+            <div class="supplier-info-item">
+                <span>Joined GarmentHub</span>
+                <strong>{{ business.created_at|date:"F Y" }}</strong>
+            </div>
+
+            {% if business.phone %}
+            <a class="supplier-contact-button" href="tel:{{ business.phone }}">
+                Contact Business
+            </a>
+            {% endif %}
+
+            {% if user.is_authenticated %}
+
+            <a href="{% url 'messaging:start_inquiry' business.pk %}" class="supplier-contact-button">
+                Send Business Inquiry
+            </a>
+
+            {% else %}
+
+            <a href="{% url 'accounts:login' %}" class="supplier-contact-button">
+                Login to Send Inquiry
+            </a>
+
+            {% endif %}
+
+        </div>
+
+    </aside>
+
+</section>
+
+{% endblock %}
+
+<section class="supplier-reviews">
+
+    <div class="supplier-reviews-heading">
+        <h2>Business Reviews</h2>
+
+        {% if rating_summary.review_count %}
+        <p>
+            ★ {{ rating_summary.average_rating|floatformat:1 }}/5
+            · {{ rating_summary.review_count }} reviews
+        </p>
+        {% else %}
+        <p>No reviews yet</p>
+        {% endif %}
+    </div>
+
+    {% for review in reviews %}
+
+    <article class="supplier-review-card">
+
+        <div class="supplier-review-top">
+            <strong>{{ review.reviewer_business.name }}</strong>
+            <span>★ {{ review.rating }}/5</span>
+        </div>
+
+        <p>{{ review.comment|linebreaksbr }}</p>
+
+        <small>{{ review.created_at|date:"d M Y" }}</small>
+
+    </article>
+
+    {% empty %}
+
+    <p class="supplier-no-reviews">
+        This business has not received any reviews yet.
+    </p>
+
+    {% endfor %}
+
+</section>

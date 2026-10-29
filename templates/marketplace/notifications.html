@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Notifications | GarmentHub{% endblock %}
+
+{% block content %}
+<section class="notifications-page">
+
+    <div class="notifications-heading">
+        <div>
+            <p class="eyebrow">GARMENTHUB / ACTIVITY</p>
+            <h1>Your notifications<span>.</span></h1>
+            <p>
+                Stay updated on offers and production work.
+                {{ unread_count }} unread notification(s).
+            </p>
+        </div>
+
+        {% if unread_count %}
+        <form method="post"
+              action="{% url 'marketplace:mark_all_notifications_read' %}">
+            {% csrf_token %}
+            <button class="button button--dark" type="submit">
+                Mark all as read
+            </button>
+        </form>
+        {% endif %}
+    </div>
+
+    <div class="notification-list">
+        {% for notification in notifications %}
+        <article class="notification-item {% if not notification.is_read %}notification-unread{% endif %}">
+            <div class="notification-marker">
+                {% if not notification.is_read %}●{% else %}○{% endif %}
+            </div>
+
+            <div class="notification-copy">
+                <p class="eyebrow">
+                    {{ notification.get_notification_type_display }}
+                </p>
+                <h2>{{ notification.title }}</h2>
+                <p>{{ notification.message }}</p>
+                <time>{{ notification.created_at|date:"d M Y, h:i A" }}</time>
+            </div>
+
+            <div class="notification-action">
+                {% if not notification.is_read or notification.work_request_id %}
+                <form method="post"
+                      action="{% url 'marketplace:mark_notification_read' notification.id %}">
+                    {% csrf_token %}
+                    <button class="text-link" type="submit">
+                        {% if notification.work_request_id %}
+                            View work ↗
+                        {% else %}
+                            Mark as read
+                        {% endif %}
+                    </button>
+                </form>
+                {% endif %}
+            </div>
+        </article>
+        {% empty %}
+        <div class="notification-empty">
+            <p class="eyebrow">ALL CAUGHT UP</p>
+            <h2>No notifications yet.</h2>
+            <p>New offers and updates will appear here.</p>
+            <a class="button button--dark"
+               href="{% url 'marketplace:home' %}">
+                Explore marketplace
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+</section>
+{% endblock %}

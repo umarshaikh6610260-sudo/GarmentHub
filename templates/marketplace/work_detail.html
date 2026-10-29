@@ -1,0 +1,247 @@
+{% extends "base.html" %}
+
+{% block title %}{{ work.title }} | GarmentHub{% endblock %}
+
+{% block content %}
+<section class="detail-page">
+
+    <a class="text-link" href="{% url 'marketplace:home' %}">
+        ← Back to marketplace
+    </a>
+
+    <div class="detail-layout">
+
+        <!-- MAIN WORK DETAILS -->
+        <article class="detail-main">
+
+            <p class="eyebrow">
+                {{ work.get_category_display }} / WORK REQUEST
+            </p>
+
+            <h1>{{ work.title }}</h1>
+
+            <p class="work-business">
+                Posted by {{ work.business.name }}
+            </p>
+
+            <div class="detail-description">
+                <h2>About this work</h2>
+                <p>{{ work.description|linebreaksbr }}</p>
+            </div>
+
+            <div class="detail-facts">
+
+                <div>
+                    <small>QUANTITY</small>
+                    <strong>{{ work.quantity }} {{ work.unit }}</strong>
+                </div>
+
+                <div>
+                    <small>BUDGET</small>
+                    <strong>₹{{ work.budget|floatformat:2 }}</strong>
+                </div>
+
+                <div>
+                    <small>LOCATION</small>
+                    <strong>{{ work.city }}</strong>
+                </div>
+
+                <div>
+                    <small>DEADLINE</small>
+                    <strong>{{ work.deadline|date:"d M Y" }}</strong>
+                </div>
+
+            </div>
+
+            <p class="detail-status">
+                Status: {{ work.get_status_display }}
+            </p>
+
+            <!-- OWNER STATUS ACTIONS -->
+            {% if is_owner %}
+            <div class="work-status-actions">
+
+                {% if work.status == "open" %}
+                <form method="post" action="{% url 'marketplace:update_work_status' work.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="status" value="cancelled">
+
+                    <button class="button button--dark" type="submit">
+                        Cancel Work Request
+                    </button>
+                </form>
+                {% endif %}
+
+                {% if work.status == "completion_pending" %}
+                <div class="market-notice">
+                    The supplier has submitted this work for completion.
+                    Please review the work before making a decision.
+                </div>
+
+                <div class="completion-actions">
+                    <form method="post" action="{% url 'marketplace:approve_work_completion' work.id %}">
+                        {% csrf_token %}
+
+                        <button class="button button--dark" type="submit">
+                            Approve Completion
+                        </button>
+                    </form>
+
+                    <form method="post" action="{% url 'marketplace:reject_work_completion' work.id %}">
+                        {% csrf_token %}
+
+                        <button class="button button--outline" type="submit">
+                            Request More Work
+                        </button>
+                    </form>
+                </div>
+                {% endif %}
+
+            </div>
+            {% endif %}
+
+            <!-- ASSIGNED SUPPLIER ACTIONS -->
+            {% if is_assigned_supplier %}
+
+            {% if work.status == "assigned" %}
+            <div class="supplier-completion-panel">
+                <p class="eyebrow">SUPPLIER WORKFLOW</p>
+                <h2>Finished the assigned work?</h2>
+                <p>
+                    Submit your completion request.
+                    The work owner will review it before approval.
+                </p>
+
+                <form method="post" action="{% url 'marketplace:submit_work_completion' work.id %}">
+                    {% csrf_token %}
+
+                    <button class="button button--dark" type="submit">
+                        Submit Work for Approval
+                    </button>
+                </form>
+            </div>
+
+            {% elif work.status == "completion_pending" %}
+            <div class="market-notice">
+                Your completion request has been submitted.
+                Waiting for approval from the work owner.
+            </div>
+
+            {% elif work.status == "completed" %}
+            <div class="market-notice">
+                This work has been successfully completed and approved.
+            </div>
+            {% endif %}
+
+            {% endif %}
+
+            <!-- OFFER SUBMISSION -->
+            {% if user.is_authenticated and not is_owner and not is_assigned_supplier %}
+
+            {% if work.status == "open" %}
+
+            {% if my_offer %}
+            <div class="market-notice">
+                Your business has already submitted an offer.
+                Current status:
+                {{ my_offer.get_status_display }}.
+            </div>
+            {% else %}
+            <a class="button button--dark" href="{% url 'marketplace:submit_offer' work.id %}">
+                Send Quotation
+            </a>
+            {% endif %}
+
+            {% else %}
+            <div class="market-notice">
+                This work request is no longer accepting offers.
+            </div>
+            {% endif %}
+
+            {% elif not user.is_authenticated %}
+            {% if work.status == "open" %}
+            <a class="button button--dark" href="{% url 'accounts:login' %}?next={{ request.path|urlencode }}">
+                Login to Submit an Offer
+            </a>
+            {% endif %}
+            {% endif %}
+
+            {% if work.status == "completed" %}
+
+            <a href="{% url 'marketplace:submit_business_review' work.pk %}" class="review-work-link">
+                Review Completed Work
+            </a>
+
+            {% endif %}
+
+        </article>
+
+        <!-- OWNER OFFERS SIDEBAR -->
+        {% if is_owner %}
+        <aside class="detail-sidebar">
+
+            <p class="eyebrow">YOUR WORK REQUEST</p>
+            <h2>Offers Received</h2>
+
+            <p>{{ offers|length }} offer(s) received</p>
+
+            {% for offer in offers %}
+            <div class="offer-card">
+
+                <h3>{{ offer.business.name }}</h3>
+
+                <p>{{ offer.get_offer_type_display }}</p>
+
+                {% if offer.quoted_price != None %}
+                <strong>
+                    ₹{{ offer.quoted_price|floatformat:2 }}
+                </strong>
+                {% else %}
+                <strong>
+                    ₹{{ work.budget|floatformat:2 }}
+                </strong>
+                {% endif %}
+
+                {% if offer.message %}
+                <p>{{ offer.message|linebreaksbr }}</p>
+                {% endif %}
+
+                <p>
+                    Status: {{ offer.get_status_display }}
+                </p>
+
+                {% if offer.status == "pending" and work.status == "open" %}
+                <div class="offer-actions">
+                    <form method="post" action="{% url 'marketplace:accept_offer' offer.id %}">
+                        {% csrf_token %}
+
+                        <button class="button button--dark" type="submit">
+                            Accept This Offer
+                        </button>
+                    </form>
+
+                    <form method="post" action="{% url 'marketplace:reject_offer' offer.id %}">
+                        {% csrf_token %}
+
+                        <button class="button button--outline" type="submit">
+                            Reject This Offer
+                        </button>
+                    </form>
+                </div>
+                {% endif %}
+
+            </div>
+
+            {% empty %}
+            <p>
+                No offers yet. Interested businesses will appear here.
+            </p>
+            {% endfor %}
+
+        </aside>
+        {% endif %}
+
+    </div>
+
+</section>
+{% endblock %}
