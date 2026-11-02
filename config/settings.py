@@ -130,7 +130,7 @@ SECRET_KEY = "django-insecure-garmenthub-local-development-key"
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['garmenthub.vercel.app']
 
 
 # ==========================================
